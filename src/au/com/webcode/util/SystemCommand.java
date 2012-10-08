@@ -49,12 +49,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.lang.System;
+import java.io.File;
 import java.nio.channels.Channels;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class SystemCommand {
-
 	private String defaultTimeout = "10000"; // 10 seconds, must be a string
 
 	/**
@@ -138,7 +138,7 @@ public class SystemCommand {
 	 * @return					A SystemCommandResult object
 	 */
 	public SystemCommandResult execute(String cmd) throws Exception {
-		return execute(cmd,defaultTimeout);
+		return execute(cmd,defaultTimeout,null);
 	}
 
 	/**
@@ -151,11 +151,9 @@ public class SystemCommand {
 	 */
 	public SystemCommandResult execute(String cmd, String timeoutAsString, String cwd) throws InterruptedException, IOException {
 		int timeout = Integer.parseInt(timeoutAsString);
-		if (cwd) {
-			Process proc = Runtime.getRuntime().exec(cmd,null,new File(cwd));
-		} else {
-			Process proc = Runtime.getRuntime().exec(cmd);
-		}
+		
+		Process proc = Runtime.getRuntime().exec(cmd,null,new File(cwd));
+		
 		StreamReader errorReader = new StreamReader(proc.getErrorStream());
 		StreamReader outputReader = new StreamReader(proc.getInputStream());
 		Interrupter errorInterrupter = new Interrupter(proc,timeout);
