@@ -1,0 +1,9 @@
+{
+	"name":"SystemCommand",
+	"description":"An advanced alternative to cfexecute with more freedom.",
+	"version":"0.2.0",
+	"main":"./lib/systemcommand.jar",
+	"classes":{
+		"command":"au.com.webcode.util.SystemCommand"
+	}
+}
