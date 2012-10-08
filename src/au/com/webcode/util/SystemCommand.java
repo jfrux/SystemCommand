@@ -146,11 +146,16 @@ public class SystemCommand {
 	 * 
 	 * @param cmd				The command to execute
 	 * @param timeoutAsString	The timeout in milliseconds specified as a string. We use a string here to better suit caling this method from with ColdFusion.
+	 * @param cwd 				The current working directory to execute the command in.
 	 * @return					A SystemCommandResult object
 	 */
-	public SystemCommandResult execute(String cmd, String timeoutAsString) throws InterruptedException, IOException {
+	public SystemCommandResult execute(String cmd, String timeoutAsString, String cwd) throws InterruptedException, IOException {
 		int timeout = Integer.parseInt(timeoutAsString);
-		Process proc = Runtime.getRuntime().exec(cmd);
+		if (cwd) {
+			Process proc = Runtime.getRuntime().exec(cmd,null,new File(cwd));
+		} else {
+			Process proc = Runtime.getRuntime().exec(cmd);
+		}
 		StreamReader errorReader = new StreamReader(proc.getErrorStream());
 		StreamReader outputReader = new StreamReader(proc.getInputStream());
 		Interrupter errorInterrupter = new Interrupter(proc,timeout);
