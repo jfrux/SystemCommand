@@ -1,7 +1,10 @@
 SystemCommand
 =============
-An alternative to cfexecute for ColdFusion Developers. 
+An alternative to cfexecute for ColdFusion Developers.
+
 Originally written by Kevan Stannard
+
+**NOTE: I've put this project here so I can extend development on it in some areas.**
 
 ###Description:
 Typically when you want to execute a system command you would use the cfexecute tag, but there are some situations when this may not be ideal such as when you want to capture both the 'standard output' and 'error output' streams of the system command.
