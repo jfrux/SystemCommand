@@ -37,7 +37,7 @@ To use this utility you need
 
 Typically when you want to execute a system command you would use the <cfexecute> tag, but there are some situations when this may not be ideal such as when you want to capture both the "standard output" and "error output" streams of the system command.
 
-Standard Output Stream and Error Output Stream
+###Standard Output Stream and Error Output Stream
 
 Many command line programs send output to two data 'streams':
 a) Standard output stream
@@ -45,30 +45,36 @@ b) Error output stream
 
 When you manually execute a program the command line information sent to either stream is simply displayed on the screen - there is no distinction which stream is being used.
 
-Example
+###Example
 
 For example, suppose we execute the command to determine the version of java running on your system. You may execute the following command:
 
-java -version
-Which on my machine results in:
+`java -version`
 
+Which on my machine results in:
+```
 java version "1.6.0_03"
 
 Java(TM) SE Runtime Environment (build 1.6.0_03-b05)
 
 Java HotSpot(TM) Client VM (build 1.6.0_03-b05, mixed mode)
+```
 
 The problem with <cfexecute>
 
 Suppose you execute the command above using using:
 
+```coldfusion
 <cfexecute name="java" arguments="-version" timeout="1" variable="output" />
 <cfoutput>#output#</cfoutput>
+```
+
 This produces no output!
 
-What happened? Well, cfexecute can only capture output sent to the standard output stream, but not anything sent to the error output stream.
+What happened? 
+Well, cfexecute can only capture output sent to the standard output stream, but not anything sent to the error output stream.
 
-In this example, the java -version command sends all of its output to the error output stream (which seems a bit odd, but it came in useful for this example).
+In this example, the `java -version` command sends all of its output to the error output stream (which seems a bit odd, but it came in useful for this example).
 
 So how can we capture both the standard output and the error output streams?
 
@@ -78,10 +84,10 @@ One method of capturing both streams is to put the command inside a batch file a
 
 Suppose we have a file javaversion.bat with the content
 
-java -version
+`java -version`
 Then we run the batch file (on a windows machine) as follows
 
-javaversion.bat 1>stdout.txt 2>errout.txt
+`javaversion.bat 1>stdout.txt 2>errout.txt`
 This is just the syntax for capturing the standard output (stream 1) and error output (stream 2)
 
 This will result in the creation of two files:
@@ -90,13 +96,13 @@ errout.txt which has the version data.
 
 The next step would be to read in the files just created to get the output data.
 
-Using Java
+###Using Java
 
 The previous entry on executing system commands described a technique of using inline Java code within ColdFusion, but this technique does not work for all executables.
 
 The problem is that the standard output and error output streams need to be read simultaneously rather than sequentially. We can use a small Java application to help us in achieving this.
 
-Installation
+###Installation
 
 1. Download SystemCommand Component. This contains the Java source code and a systemcommand.jar file.
 
